@@ -66,16 +66,15 @@
 
       <div class="wl-footer">
         <div class="wl-actions">
-          <a
-            href="https://guides.github.com/features/mastering-markdown/"
-            title="Markdown Guide"
-            aria-label="Markdown is supported"
+          <!-- <a
+            title="Markdown"
+            aria-label="支持Markdown"
             class="wl-action"
             target="_blank"
             rel="noreferrer"
           >
             <MarkdownIcon />
-          </a>
+          </a> -->
 
           <button
             v-show="emoji.tabs.length"
@@ -225,7 +224,7 @@ import {
   CloseIcon,
   EmojiIcon,
   ImageIcon,
-  MarkdownIcon,
+  // MarkdownIcon,
   PreviewIcon,
   LoadingIcon,
 } from './Icons';
@@ -250,7 +249,7 @@ export default defineComponent({
     CloseIcon,
     EmojiIcon,
     ImageIcon,
-    MarkdownIcon,
+    // MarkdownIcon,
     PreviewIcon,
     LoadingIcon,
   },
