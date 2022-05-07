@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test</title>
+    <link
+      rel="stylesheet"
+      href="/Users/zdy/Desktop/waline/packages/client/dist/waline.css"
+    />
+    <script src="/Users/zdy/Desktop/waline/packages/client/dist/waline.js"></script>
+  </head>
+  <body>
+    <div>
+      本页访问量:
+      <span id="/" class="waline-pageview-count"></span><br />
+      本页评论数:
+      <span id="/" class="waline-comment-count"></span><br />
+      主页浏览量:
+      <span class="waline-pageview-count" data-path="/" />
+    </div>
+
+    <div id="waline" style="max-width: 800px; margin: 0 auto"></div>
+    <script>
+      Waline.init({
+        el: '#waline',
+        path: '/',
+        comment: true,
+        pageview: true,
+        commentCount: true, //评论数统计
+        serverURL: 'http://localhost:8360',
+        wordLimit: 500, //评论字数限制
+        pageSize: 10, //评论列表分页
+        dark: 'false',
+        meta: ['nick', 'mail', 'link'], //评论者相关属性。可选值: 'nick', 'mail', 'link'
+        requiredMeta: ['nick'], //设置必填项，默认匿名，可选值: ['nick', 'mail', 'link']
+        login: 'enable', //'enable'启用登录 (默认),'disable'禁用登录，用户只能填写信息评论,'force'强制登录，用户必须注册并登录才可发布评论
+        // 设置 emoji 为微博与哔哩哔哩
+        emoji: [
+          '//unpkg.com/@waline/emojis@1.0.1/weibo',
+          '//unpkg.com/@waline/emojis@1.0.1/bilibili',
+          'https://unpkg.com/@waline/emojis@1.0.1/qq',
+          'https://unpkg.com/@waline/emojis@1.0.1/tieba',
+          'https://unpkg.com/@waline/emojis@1.0.1/alus',
+        ],
+        copyright: false, //版权信息
+      });
+    </script>
+  </body>
+</html>

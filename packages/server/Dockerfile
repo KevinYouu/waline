@@ -11,5 +11,4 @@ WORKDIR /app
 ENV TZ Asia/Shanghai
 ENV NODE_ENV production
 COPY --from=build /app .
-EXPOSE 8360
 CMD ["node", "node_modules/@waline/vercel/vanilla.js"]

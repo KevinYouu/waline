@@ -17,5 +17,4 @@ RUN set -eux; \
 	setup-timezone -z ${TZ}; \
 	apk del --no-network .build-deps
 COPY --from=build /app .
-EXPOSE 8360
 CMD ["node", "node_modules/@waline/vercel/vanilla.js"]

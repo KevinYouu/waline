@@ -3,18 +3,27 @@ version: '3'
 
 services:
   waline:
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: waline
-    image: lizheming/waline:latest
+    # image: erwinyou/waline
     restart: always
     ports:
-      - 127.0.0.1:8360:8360
+      - 8360:8360
     volumes:
-      - ${PWD}/data:/app/data
+      - /Users/zdy/Documents/docker/waline/data:/app/data
     environment:
-      TZ: 'Asia/Shanghai'
-      SQLITE_PATH: '/app/data'
-      JWT_TOKEN: 'Your token'
-      SITE_NAME: 'Your site name'
-      SITE_URL: 'https://example.com'
-      SECURE_DOMAINS: 'example.com'
-      AUTHOR_EMAIL: 'mail@example.com'
+      MYSQL_HOST: '192.168.1.115'
+      MYSQL_DB: 'waline'
+      MYSQL_USER: 'root'
+      MYSQL_PASSWORD: '3.1415926'
+      AUTHOR_EMAIL: 'zdyas@qq.com'
+      SITE_NAME: '张登友的博客'
+      SITE_URL: 'https://www.zdynb.cn'
+      SMTP_SERVICE: 'QQ'
+      SMTP_USER: 'zdyas@qq.com'
+      SMTP_PASS: 'uykrniysoraohgdb'
+      SECURE_DOMAINS: 'www.zdynb.cn,rs.zdynb.cn,music.zdynb.cn,reg.zdynb.cn,api.zdynb.cn,json.zdynb.cn,apis.zdynb.cn,icon.zdynb.cn.conf'
+      DISABLE_USERAGENT: 'false'
+      IPQPS: '10'
