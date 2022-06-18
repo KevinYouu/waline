@@ -163,7 +163,7 @@ export default defineComponent({
     const locale = computed(() => config.value.locale);
 
     const link = computed(() => {
-      let { link } = props.comment;
+      const { link } = props.comment;
 
       return link ? (isLinkHttp(link) ? link : `https://${link}`) : '';
     });

@@ -66,17 +66,6 @@
 
       <div class="wl-footer">
         <div class="wl-actions">
-          <a
-            href="https://guides.github.com/features/mastering-markdown/"
-            title="Markdown Guide"
-            aria-label="Markdown is supported"
-            class="wl-action"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <MarkdownIcon />
-          </a>
-
           <button
             v-show="emoji.tabs.length"
             ref="emojiButtonRef"
@@ -88,7 +77,7 @@
             <EmojiIcon />
           </button>
 
-          <button
+          <!-- <button
             v-if="config.search"
             ref="gifButtonRef"
             class="wl-action"
@@ -97,7 +86,7 @@
             @click="showGif = !showGif"
           >
             <GifIcon />
-          </button>
+          </button> -->
 
           <input
             ref="imageUploadRef"
@@ -263,10 +252,8 @@ import {
   CloseIcon,
   EmojiIcon,
   ImageIcon,
-  MarkdownIcon,
   PreviewIcon,
   LoadingIcon,
-  GifIcon,
 } from './Icons';
 import ImageWall from './ImageWall.vue';
 import { useEditor, useUserMeta, useUserInfo } from '../composables';
@@ -296,10 +283,8 @@ export default defineComponent({
     EmojiIcon,
     ImageIcon,
     ImageWall,
-    MarkdownIcon,
     PreviewIcon,
     LoadingIcon,
-    GifIcon,
   },
 
   props: {
@@ -605,11 +590,11 @@ export default defineComponent({
       )
         showEmoji.value = false;
 
-      if (
-        !(gifButtonRef.value as HTMLElement).contains(event.target as Node) &&
-        !(gifPopupRef.value as HTMLElement).contains(event.target as Node)
-      )
-        showGif.value = false;
+      // if (
+      //   !(gifButtonRef.value as HTMLElement).contains(event.target as Node) &&
+      //   !(gifPopupRef.value as HTMLElement).contains(event.target as Node)
+      // )
+      //   showGif.value = false;
     };
 
     const onImageWallScroll = async (event: Event): Promise<void> => {
