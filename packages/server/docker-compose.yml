@@ -18,3 +18,11 @@ services:
       MYSQL_PASSWORD: 3.1415926
       MYSQL_DB: waline
       AUTHOR_EMAIL: zdyas@qq.com
+      # 未测试
+      SITE_NAME: 张登友的博客
+      SITE_URL: https://www.zdynb.cn
+      SMTP_SERVICE: QQ
+      SMTP_USER: zdyas@qq.com
+      SMTP_PASS: uykrniysoraohgdb
+      SECURE_DOMAINS: www.zdynb.cn,m.zdynb.cn,rs.zdynb.cn,music.zdynb.cn,ts.zdynb.cn,cook.zdynb.cn,api.zdynb.cn,json.zdynb.cn,reg.zdynb.cn,code.zdynb.cn,icon.zdynb.cn,apis.zdynb.cn.conf
+      IPQPS: 5
