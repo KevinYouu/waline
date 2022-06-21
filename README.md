@@ -1,4 +1,6 @@
 <img src="./assets/logo.png" width="200" align="right" />
+#### 2022-06-21 15:23:14 Tuesday 
+ update:添加.env变量文件,修改compose部署脚本
 #### 2022-06-20 18:03:49 Monday 
  update: 部署脚本完善(未测试)
 #### 2022-06-20 15:26:40 Monday 

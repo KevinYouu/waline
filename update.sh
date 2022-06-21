@@ -3,13 +3,13 @@ echo 请输入更新内容:
 read -r m
 echo 更新日志中...
 System=$(uname -s)
-if [ "$System" == "Darwin" ];then
+if [ "$System" == "Darwin" ]; then
     echo "Use MacOS"
     sed -i '' "1a\\
-    ####  `date '+%Y-%m-%d %H:%M:%S %A'` \\
+    ####  $(date '+%Y-%m-%d %H:%M:%S %A') \\
     $m
     " ChangeLog.md
-elif [ "$System" == "Linux" ];then
+elif [ "$System" == "Linux" ]; then
     echo "Use Linux"
     sed -i "2 i #### $(date '+%Y-%m-%d %H:%M:%S %A') \n $m" Readme.md
 else
@@ -29,6 +29,7 @@ for i in $gitRemote; do
         echo "不推送origin"
     else
         echo "推送$i"
+        git pull "$i" "$branchName"
         git push "$i" "$branchName"
     fi
 done

@@ -3,26 +3,52 @@ version: '3'
 
 services:
   waline:
-    container_name: waline
     image: erwinyou/waline:latest
     restart: always
+    # network_mode: "host"
     ports:
       - "8360:8360"
     volumes:
-      - ~/waline/data:/app/data
+      - $volumes
     environment:
       TZ: Asia/Shanghai
-      MYSQL_HOST: 192.168.1.231
-      MYSQL_PORT: 3306
-      MYSQL_USER: zdy
-      MYSQL_PASSWORD: 3.1415926
-      MYSQL_DB: waline
-      AUTHOR_EMAIL: zdyas@qq.com
-      # 未测试
-      SITE_NAME: 张登友的博客
-      SITE_URL: https://www.zdynb.cn
+      MYSQL_HOST: $MYSQL_HOST
+      MYSQL_PORT: $MYSQL_PORT
+      MYSQL_USER: $MYSQL_USER
+      MYSQL_PASSWORD: $MYSQL_PASSWORD
+      MYSQL_DB: $MYSQL_DB
+      AUTHOR_EMAIL: $AUTHOR_EMAIL
+      SITE_NAME: $SITE_NAME
+      SITE_URL: $SITE_URL
       SMTP_SERVICE: QQ
-      SMTP_USER: zdyas@qq.com
-      SMTP_PASS: uykrniysoraohgdb
+      SMTP_USER: $AUTHOR_EMAIL
+      SMTP_PASS: $SMTP_PASS
       SECURE_DOMAINS: www.zdynb.cn,m.zdynb.cn,rs.zdynb.cn,music.zdynb.cn,ts.zdynb.cn,cook.zdynb.cn,api.zdynb.cn,json.zdynb.cn,reg.zdynb.cn,code.zdynb.cn,icon.zdynb.cn,apis.zdynb.cn.conf
       IPQPS: 5
+    networks:
+      - waline
+      - mysql
+    depends_on:
+      # 依赖的服务
+      - db
+  db:
+    image: mysql:latest
+    restart: always
+    # network_mode: "host"
+    ports:
+      - "3307:3306"
+    exposes:
+      - "3306"
+    volumes:
+      - $volumes:/var/lib/mysql
+    environment:
+      TZ: Asia/Shanghai
+      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+      MYSQL_USER: $MYSQL_USER
+      MYSQL_PASSWORD: $MYSQL_PASSWORD
+      MYSQL_DATABASE: $MYSQL_DATABASE
+    networks:
+      - mysql
+networks:
+  mysql:
+  waline:
