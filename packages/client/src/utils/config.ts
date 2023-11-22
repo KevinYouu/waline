@@ -3,11 +3,9 @@ import {
   DEFAULT_EMOJI,
   DEFAULT_LANG,
   DEFAULT_LOCALES,
-  DEFAULT_REACTION,
   defaultUploadImage,
   defaultHighlighter,
   defaultTeXRenderer,
-  getDefaultSearchOptions,
   getMeta,
 } from '../config/index.js';
 import {
@@ -37,12 +35,10 @@ export interface WalineConfig
   > {
   locale: WalineLocale;
   wordLimit: [number, number] | false;
-  reaction: string[];
   emoji: Exclude<WalineProps['emoji'], boolean | undefined>;
   highlighter: Exclude<WalineProps['highlighter'], true | undefined>;
   imageUploader: Exclude<WalineProps['imageUploader'], true | undefined>;
   texRenderer: Exclude<WalineProps['texRenderer'], true | undefined>;
-  search: Exclude<WalineProps['search'], true | undefined>;
 }
 
 export const getServerURL = (serverURL: string): string => {
@@ -78,9 +74,7 @@ export const getConfig = ({
   highlighter,
   texRenderer,
   copyright = true,
-  login = 'enable',
-  search,
-  reaction,
+  login = 'disable',
   recaptchaV3Key = '',
   turnstileKey = '',
   commentSorting = 'latest',
@@ -104,19 +98,8 @@ export const getConfig = ({
   pageSize,
   login,
   copyright,
-  search:
-    search === false
-      ? false
-      : typeof search === 'object'
-      ? search
-      : getDefaultSearchOptions(lang),
   recaptchaV3Key,
   turnstileKey,
-  reaction: Array.isArray(reaction)
-    ? reaction
-    : reaction === true
-    ? DEFAULT_REACTION
-    : [],
   commentSorting,
   ...more,
 });

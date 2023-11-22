@@ -7,7 +7,6 @@ import {
   type WalineLoginStatus,
   type WalineMeta,
   type WalineTeXRenderer,
-  type WalineSearchOptions,
 } from './base.js';
 import { type WalineLocale } from './locale.js';
 
@@ -162,15 +161,6 @@ export interface WalineProps {
   emoji?: (WalineEmojiInfo | WalineEmojiPresets)[] | boolean;
 
   /**
-   * 设置搜索功能
-   *
-   * Customize Search feature
-   *
-   * @default true
-   */
-  search?: WalineSearchOptions | boolean;
-
-  /**
    * 代码高亮
    *
    * Code highlighting
@@ -243,9 +233,4 @@ export interface WalineProps {
    * turnstile client key
    */
   turnstileKey?: string;
-
-  /**
-   * reaction
-   */
-  reaction?: string[] | boolean;
 }

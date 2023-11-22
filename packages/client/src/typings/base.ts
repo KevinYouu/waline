@@ -81,39 +81,6 @@ export interface WalineSearchImageData extends Record<string, unknown> {
   preview?: string;
 }
 
-export type WalineSearchResult = WalineSearchImageData[];
-
-export interface WalineSearchOptions {
-  /**
-   * 搜索操作
-   *
-   * Search action
-   */
-  search: (word: string) => Promise<WalineSearchResult>;
-
-  /**
-   * 打开列表时展示的默认结果
-   *
-   * Default result when opening list
-   *
-   * @default () => search('')
-   */
-  default?: () => Promise<WalineSearchResult>;
-
-  /**
-   * 获取更多的操作
-   *
-   * @description 会在列表滚动到底部时触发，如果你的搜索服务支持分页功能，你应该设置此项实现无限滚动
-   *
-   * Fetch more action
-   *
-   * @description It will be triggered when the list scrolls to the bottom. If your search service supports paging, you should set this to achieve infinite scrolling
-   *
-   * @default (word) => search(word)
-   */
-  more?: (word: string, currentCount: number) => Promise<WalineSearchResult>;
-}
-
 export type WalineMeta = 'nick' | 'mail' | 'link';
 
 export type WalineImageUploader = (image: File) => Promise<string>;

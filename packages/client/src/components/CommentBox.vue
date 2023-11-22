@@ -89,17 +89,6 @@
 
       <div class="wl-footer">
         <div class="wl-actions">
-          <a
-            href="https://guides.github.com/features/mastering-markdown/"
-            title="Markdown Guide"
-            aria-label="Markdown is supported"
-            class="wl-action"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <MarkdownIcon />
-          </a>
-
           <button
             v-show="emoji.tabs.length"
             ref="emojiButtonRef"
@@ -110,18 +99,6 @@
             @click="showEmoji = !showEmoji"
           >
             <EmojiIcon />
-          </button>
-
-          <button
-            v-if="config.search"
-            ref="gifButtonRef"
-            type="button"
-            class="wl-action"
-            :class="{ active: showGif }"
-            :title="locale.gif"
-            @click="showGif = !showGif"
-          >
-            <GifIcon />
           </button>
 
           <input
@@ -195,33 +172,6 @@
         </div>
 
         <div
-          ref="gifPopupRef"
-          class="wl-gif-popup"
-          :class="{ display: showGif }"
-        >
-          <input
-            ref="gifSearchInputRef"
-            type="text"
-            :placeholder="locale.gifSearchPlaceholder"
-            @input="onGifSearch"
-          />
-
-          <ImageWall
-            v-if="searchResults.list.length"
-            :items="searchResults.list"
-            :column-width="200"
-            :gap="6"
-            @insert="insert($event)"
-            @scroll="onImageWallScroll"
-          >
-          </ImageWall>
-
-          <div v-if="searchResults.loading" class="wl-loading">
-            <LoadingIcon :size="30" />
-          </div>
-        </div>
-
-        <div
           ref="emojiPopupRef"
           class="wl-emoji-popup"
           :class="{ display: showEmoji }"
@@ -286,7 +236,6 @@
 </template>
 
 <script setup lang="ts">
-import { useDebounceFn } from '@vueuse/core';
 import autosize from 'autosize';
 import {
   type ComputedRef,
@@ -295,7 +244,6 @@ import {
   inject,
   onMounted,
   onUnmounted,
-  reactive,
   ref,
   watch,
 } from 'vue';
@@ -303,13 +251,10 @@ import {
 import {
   CloseIcon,
   EmojiIcon,
-  GifIcon,
   ImageIcon,
   LoadingIcon,
-  MarkdownIcon,
   PreviewIcon,
 } from './Icons.js';
-import ImageWall from './ImageWall.vue';
 import { addComment, login, updateComment, UserInfo } from '../api/index.js';
 import {
   useEditor,
@@ -322,8 +267,6 @@ import {
   type WalineComment,
   type WalineCommentData,
   type WalineImageUploader,
-  type WalineSearchOptions,
-  type WalineSearchResult,
 } from '../typings/index.js';
 import {
   type WalineConfig,
@@ -384,22 +327,13 @@ const editorRef = ref<HTMLTextAreaElement | null>(null);
 const imageUploadRef = ref<HTMLInputElement | null>(null);
 const emojiButtonRef = ref<HTMLDivElement | null>(null);
 const emojiPopupRef = ref<HTMLDivElement | null>(null);
-const gifButtonRef = ref<HTMLDivElement | null>(null);
-const gifPopupRef = ref<HTMLDivElement | null>(null);
-const gifSearchInputRef = ref<HTMLInputElement | null>(null);
 
 const emoji = ref<DeepReadonly<WalineEmojiConfig>>({ tabs: [], map: {} });
 const emojiTabIndex = ref(0);
 const showEmoji = ref(false);
-const showGif = ref(false);
 const showPreview = ref(false);
 const previewText = ref('');
 const wordNumber = ref(0);
-
-const searchResults = reactive({
-  loading: true,
-  list: [] as WalineSearchResult,
-});
 
 const wordLimit = ref(0);
 const isWordNumberLegal = ref(false);
@@ -407,8 +341,6 @@ const isWordNumberLegal = ref(false);
 const content = ref('');
 
 const isSubmitting = ref(false);
-
-const isImageListEnd = ref(false);
 
 const locale = computed(() => config.value.locale);
 
@@ -659,51 +591,7 @@ const popupHandler = (event: MouseEvent): void => {
     !emojiPopupRef.value?.contains(event.target as Node)
   )
     showEmoji.value = false;
-
-  if (
-    !gifButtonRef.value?.contains(event.target as Node) &&
-    !gifPopupRef.value?.contains(event.target as Node)
-  )
-    showGif.value = false;
 };
-
-const onImageWallScroll = async (event: Event): Promise<void> => {
-  const { scrollTop, clientHeight, scrollHeight } =
-    event.target as HTMLDivElement;
-  const percent = (clientHeight + scrollTop) / scrollHeight;
-  const searchOptions = config.value.search as WalineSearchOptions;
-  const keyword = gifSearchInputRef.value?.value || '';
-
-  if (percent < 0.9 || searchResults.loading || isImageListEnd.value) return;
-
-  searchResults.loading = true;
-
-  const searchResult =
-    searchOptions.more && searchResults.list.length
-      ? await searchOptions.more(keyword, searchResults.list.length)
-      : await searchOptions.search(keyword);
-
-  if (searchResult.length)
-    searchResults.list = [
-      ...searchResults.list,
-      ...(searchOptions.more && searchResults.list.length
-        ? await searchOptions.more(keyword, searchResults.list.length)
-        : await searchOptions.search(keyword)),
-    ];
-  else isImageListEnd.value = true;
-
-  searchResults.loading = false;
-
-  setTimeout(() => {
-    (event.target as HTMLDivElement).scrollTop = scrollTop;
-  }, 50);
-};
-
-const onGifSearch = useDebounceFn((event: Event) => {
-  searchResults.list = [];
-  isImageListEnd.value = false;
-  void onImageWallScroll(event);
-}, 300);
 
 // update wordNumber
 watch(
@@ -750,24 +638,6 @@ onMounted(() => {
   if (props.edit?.objectId) {
     editor.value = props.edit.orig;
   }
-
-  // watch gif
-  watch(showGif, async (showGif) => {
-    if (!showGif) return;
-
-    const searchOptions = config.value.search as WalineSearchOptions;
-
-    // clear input
-    if (gifSearchInputRef.value) gifSearchInputRef.value.value = '';
-
-    searchResults.loading = true;
-
-    searchResults.list = searchOptions.default
-      ? await searchOptions.default()
-      : await searchOptions.search('');
-
-    searchResults.loading = false;
-  });
 
   // watch editor
   watch(

@@ -1,7 +1,5 @@
 <template>
   <div data-waline>
-    <Reaction />
-
     <CommentBox v-if="!reply" @log="refresh" @submit="onSubmit" />
 
     <div class="wl-meta-head">
@@ -91,7 +89,6 @@
 import { useStyleTag } from '@vueuse/core';
 import { computed, onMounted, onUnmounted, provide, ref, watch } from 'vue';
 
-import Reaction from './ArticleReaction.vue';
 import CommentBox from './CommentBox.vue';
 import CommentCard from './CommentCard.vue';
 import { LoadingIcon } from './Icons.js';
@@ -128,7 +125,6 @@ const props = defineProps([
   'copyright',
   'recaptchaV3Key',
   'turnstileKey',
-  'reaction',
 ]);
 
 const sortKeyMap: Record<WalineCommentSorting, SortKey> = {

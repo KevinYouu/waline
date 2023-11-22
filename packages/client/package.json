@@ -1,7 +1,7 @@
 {
-  "name": "@waline/client",
-  "version": "2.15.8",
-  "description": "client for waline comment system",
+  "name": "waline-client-kevin",
+  "version": "2.15.9",
+  "description": "waline client 精简部分功能版本",
   "keywords": [
     "valine",
     "waline",
@@ -99,14 +99,10 @@
     "build": "pnpm rollup && pnpm style",
     "clean": "rimraf ./dist",
     "dev": "vite",
-    "prepublishOnly": "pnpm clean && pnpm build",
     "rollup": "rollup -c",
     "style": "pnpm style:main && pnpm style:meta",
     "style:main": "sass ./src/styles/index.scss ./dist/waline.css --style=compressed",
     "style:meta": "sass ./src/styles/meta.scss ./dist/waline-meta.css --style=compressed"
-  },
-  "publishConfig": {
-    "provenance": true
   },
   "browserslist": {
     "production": [
